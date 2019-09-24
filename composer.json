@@ -1,0 +1,14 @@
+{
+    "name": "inyang/get-health",
+    "description": "This Repository help you use GetHealth APIs easily with PHP",
+    "type": "library",
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "Inyang Andino",
+            "email": "doninyangm@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
