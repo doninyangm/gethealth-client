@@ -1,2 +1,2 @@
 # gethealth-client
-This Repository help you use GetHealth APIs easily, 
+A simple simple Library for GetHealth.io API connectivity, 

@@ -1,5 +1,7 @@
 <?php namespace GetHealth;
 
+Use Carbon\Carbon;
+
 /**
  * @package    GetHealth
  * @author     Andino Inyang
@@ -28,19 +30,57 @@ class Helper{
                 'access_token' => $accountToken,
                 'user' => $arr
             );
-            $data_json = json_encode($data);
+            $dataJson = json_encode($data);
             $ch = curl_init('https://platform.gethealth.io/v1/health/account/user/');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $dataJson);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, 
                     array( 
                             'Content-Type: application/json',
-                            'Content-Length: ' . strlen($data_json))
+                            'Content-Length: ' . strlen($dataJson))
                         );       
-            $result = curl_exec($ch);
-            return $result;
+            $response = curl_exec($ch);
+            return $response;
         }catch(Exception $e){
             return false;
         }
+    }
+
+    /**
+     * Return the supported devices for this account
+     * @param String $userToken
+     * @return json | false
+     */
+    public static function getDevices($userToken){
+        $ch = curl_init();  
+        $url = 'https://platform.gethealth.io/v1/health/user/devices/?access_token='.$userToken;
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+    //  curl_setopt($ch,CURLOPT_HEADER, false); 
+        $response=curl_exec($ch);
+        curl_close($ch);
+        return $response;
+    }
+
+    /**
+     * Return activities for the provided user
+     * @param String $userToken
+     * @return json | false
+     */
+    public static function getActivity($userToken){
+       try{
+            $ch = curl_init();
+            $url = 'https://platform.gethealth.io/v1/health/user/activities/?access_token='.$userToken;
+            curl_setopt($ch,CURLOPT_URL,$url);
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+            curl_setopt($ch,CURLOPT_HEADER, false);    
+            $output = curl_exec($ch);
+            curl_close($ch);
+            $response = json_decode($output, true);       
+            return $response;
+       }
+       catch(Exception $e){
+           return false;
+       }
     }
 }
